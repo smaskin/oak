@@ -1,4 +1,4 @@
-{% extends 'mainapp/base.html' %}
+{% extends 'layout.html' %}
 {% load staticfiles %}
 {% block title %}
     {{ block.super }}: Каталог
@@ -8,8 +8,9 @@
     <ul class="catalog">
         {% for product in products %}
             <li>
-                <img src="{% static product.img %}" alt="дуб"><br>
-                <a href="{% url product.href %}">{{ product.name|title }}</a>
+                <img src="media/{{ product.image }}" alt="{{ product.name|title }}"><br>
+{#                <a href="{% url view.href %}">{{ product.name|title }}</a>#}
+                <a href="{{ view.href }}">{{ product.name|title }}</a>
             </li>
         {% endfor %}
     </ul>

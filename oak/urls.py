@@ -1,12 +1,19 @@
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls import url, include
+from django.conf.urls.static import static
+
 import mainapp.views as mainapp
+import productapp.views as productapp
 
 urlpatterns = [
-    url(r'^$', mainapp.main, name='main'),
-    url(r'^products', mainapp.products, name='products'),
-    url(r'^contact', mainapp.contact, name='contact'),
-    url(r'^detail', mainapp.detail, name='detail'),
+    path('', mainapp.main, name='main'),
+    path('contact', mainapp.contact, name='contact'),
+    path('products', include(('productapp.urls', 'index'), namespace='products')),
+    path('detail', productapp.view, name='detail'),
     path('admin', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
