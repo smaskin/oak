@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True, verbose_name='подробно')),
                 ('price', models.DecimalField(decimal_places=2, default=0, max_digits=8, verbose_name='цена')),
                 ('quantity', models.PositiveIntegerField(default=0, verbose_name='склад')),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='productapp.Category')),
+                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.Category')),
             ],
         ),
     ]

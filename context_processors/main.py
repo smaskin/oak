@@ -1,5 +1,6 @@
-def menu(request):
+def header(request):
     return {
+        'site_name': 'Семена деревьев',
         'menu': [
             {'href': 'main', 'name': 'Главная'},
             {'href': 'products:index', 'name': 'Каталог'},
