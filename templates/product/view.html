@@ -2,58 +2,6 @@
 {% block content %}
     <h3>{{ product.name }}</h3>
     <a href="/media/{{ product.image }}" target="_blank"><img src="/media/{{ product.image }}" alt="дуб" height="200px"></a>
-    <h3 class="title title-short">Описание товара</h3>
-
-    {{ product.short_desc }}
-
-    <h3 class="title title-kind">Характеристики товара</h3>
-
-    <ul class="kind">
-        <li>Дуб чере́шчатый (лат. Quércus róbur) — типовой вид рода Дуб (Quercus) семейства Буковые (Fagaceae).</li>
-        <li>Крупное дерево, достигающее в высоту 30—40 м.</li>
-        <li>Может дожить до 2000 лет, но обычно живёт 300—400 лет.</li>
-        <li>Вид внесён в Красную книгу Международного союза охраны природы.</li>
-    </ul>
-
-    <h3 class="title title-detail">Подробное описание товара</h3>
-
-    <table>
-        <thead>
-        <tr>
-            <td>Квартал</td>
-            <td>I</td>
-            <td>II</td>
-            <td>III</td>
-            <td>IV</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Цветение</td>
-            <td></td>
-            <td></td>
-            <td class="fully"></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Сбор семян</td>
-            <td></td>
-            <td></td>
-            <td class="partly"></td>
-            <td class="partly"></td>
-        </tr>
-        <tr>
-            <td>Посадки</td>
-            <td></td>
-            <td class="fully"></td>
-            <td class="partly"></td>
-            <td class="fully"></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <p>
-        {{ product.description }}
-    </p>
-
+    <h3 class="title">Описание товара</h3>{{ product.short_desc|safe }}
+    <h3 class="title">Подробное описание товара</h3>{{ product.description|safe }}
 {% endblock %}

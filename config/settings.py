@@ -27,20 +27,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'auth.ShopUser'
+AUTH_USER_MODEL = 'user.User'
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    # 'django.contrib.auth',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.main.apps.MainConfig',
     'apps.product.apps.ProductConfig',
-    'apps.auth.apps.AuthConfig',
+    'apps.user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +66,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'context_processors.main.header'
             ],
         },
     },

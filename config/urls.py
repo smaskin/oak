@@ -7,7 +7,9 @@ from django.conf.urls.static import static
 import apps.main.views as main
 import apps.product.views as product
 
-urlpatterns = [path('contact', main.contact, name='contact'),
-    path('products/', include('apps.product.urls', namespace='products')), path('admin', admin.site.urls),
+urlpatterns = [
+    path('products/', include('apps.product.urls', namespace='products')),
+    path('auth/', include('apps.user.urls', namespace='user')),
+    path('admin/', admin.site.urls),
     path('', main.main, name='main')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
