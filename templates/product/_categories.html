@@ -1,0 +1,4 @@
+<a href="{% url 'product:index' %}" class="list-group-item {% if category == 0%}active{% endif %}">Все</a>
+{% for item in categories %}
+    <a href="{% url 'product:index' category=item.pk %}" class="list-group-item {% if item.pk == category %}active{% endif %}">{{ item.name }}</a>
+{% endfor %}

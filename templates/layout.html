@@ -3,32 +3,64 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{{ title|title }}{% endblock %}</title>
+    <title>{% block title %}Семена деревьев{% endblock %}</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     {% block css %}
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'fonts/font-awesome/css/font-awesome.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/fontawesome.min.css' %}">
     {% endblock %}
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <span class="logo">{{ site_name|title }}</span>
-        <ul class="menu">
-            {% block menu %}
-                {% for item in menu %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'main' %}">
+            <img src="{% static 'images/icon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            Семена деревьев</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                {% block menu %}
+                    <li class="nav-item {% if request.resolver_match.url_name == 'main' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'main' %}">Главная</a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.namespace == 'product' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'product:index' %}">Каталог</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'user:edit' %}"
+                               class="nav-link">{{ user.first_name|default:'Пользователь' }}</a>
+                        </li>
+                    {% endif %}
                     <li>
-                        {% if request.resolver_match.url_name == item.href %}
-                            <span>{{ item.name }}</span>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'user:logout' %}" class="nav-link">Выйти</a>
                         {% else %}
-                            <a href="{% url item.href %}">{{ item.name }}</a>
+                            <a href="{% url 'user:login' %}" class="nav-link">Войти</a>
                         {% endif %}
                     </li>
-                {% endfor %}
-            {% endblock %}
-        </ul>
+                {% endblock %}
+                <li>
+                <a href="{% url 'order:view' %}" class="nav-link"><i class="fas fa-shopping-basket"></i> <span>{% if order %}{{ order|length }}{% endif %}</span></a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="content">{% block content %}<h3>Добро пожаловать!</h3>{% endblock %}</div>
-    <div class="footer">{% block footer %}<p>«Все права защищены».</p>{% endblock %}</div>
+</nav>
+<div class="container">
+    {% block content %}
+        <div class="jumbotron">
+            <h1 class="display-5">Добро пожаловать!</h1>
+        </div>
+    {% endblock %}
 </div>
+<footer class="fixed-bottom bg-secondary">
+    {% block footer %}
+        <div class="container text-white m-3">© 2018 «Все права защищены».</div>
+    {% endblock %}
+</footer>
 </body>
 </html>

@@ -4,13 +4,31 @@
     {{ block.super }}: Каталог
 {% endblock %}
 {% block content %}
-    <h3>Каталог</h3>
-    <ul class="catalog">
-        {% for product in products %}
-            <li>
-                <img src="/media/{{ product.image }}" alt="{{ product.name|title }}"><br>
-                <a href="{% url 'products:view' product.category.pk product.pk %}">{{ product.name|title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="list-group">
+                {% include 'product/_categories.html' %}
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="{% url 'product:view' product.category.pk product.pk %}"><img class="card-img-top" src="/media/{{ product.image }}" alt="{{ product.name|title }}"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="{% url 'product:view' product.category.pk product.pk %}">{{ product.name|title }}</a>
+                                </h4>
+                                <h5>{{ product.price }}</h5>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">{{ product.quantity }}</small>
+                                <a href="{% url 'order:add' product.pk %}"><i class="fas fa-plus"></i> Добавить</a></div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

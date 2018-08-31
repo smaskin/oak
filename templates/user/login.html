@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+{% block content %}
+    <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
+        {% csrf_token %}
+        {{ login_form.as_p }}<br>
+        <input class="form-control" type="submit" value="войти">
+    </form>
+    <button class="btn btn-round form-control"><a href="{% url 'user:register' %}" class="">Зарегистрироваться</a></button>
+{% endblock %}
