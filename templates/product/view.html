@@ -1,7 +1,37 @@
-{% extends 'layout.html' %}
-{% block content %}
-    <h3>{{ product.name }}</h3>
-    <a href="/media/{{ product.image }}" target="_blank"><img src="/media/{{ product.image }}" alt="дуб" height="200px"></a>
-    <h3 class="title">Описание товара</h3>{{ product.short_desc|safe }}
-    <h3 class="title">Подробное описание товара</h3>{{ product.description|safe }}
+{% extends 'layout.html' %} {% block content %}
+<div class="container">
+    <div class="card">
+        <div class="row">
+            <aside class="col-sm-5 border-right">
+                <article class="gallery-wrap">
+                    <div class="img-big-wrap">
+                        <a href="/media/{{ product.image }}" target="_blank">
+                            <img src="/media/{{ product.image }}" alt="дуб">
+                        </a>
+                    </div>
+                </article>
+            </aside>
+            <aside class="col-sm-7">
+                <article class="card-body p-5">
+                    <h3 class="title mb-3">{{ product.name }}</h3>
+                    <p class="price-detail-wrap">
+                        <span class="price h3 text-warning"><span class="num">{{ product.price }}</span></span>
+                        <a href="{% url 'order:add' product.pk %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Добавить </a>
+                    </p>
+                    <p>
+                        <span>На складе: <small class="text-muted">{{ product.quantity }}</small></span>
+                    </p>
+                    <dl class="item-property">
+                        <dt>Описание товара</dt>
+                        <dd><p>{{ product.short_desc|safe }}</p></dd>
+                    </dl>
+                    <dl class="param param-feature">
+                        <dt>Подробное описание товара</dt>
+                        <dd>{{ product.description|safe }}</dd>
+                    </dl>
+                </article>
+            </aside>
+        </div>
+    </div>
+</div>
 {% endblock %}

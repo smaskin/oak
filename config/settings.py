@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'user.User'
 
+LOGIN_URL = '/user/login/'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -67,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.order.context_processors.header.widget'
             ],
         },
     },

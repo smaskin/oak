@@ -7,3 +7,9 @@ body {
         padding-top: 76px;
     }
 }
+.img-big-wrap img{
+    width: 100%;
+}
+table img {
+    width: 100px;
+}

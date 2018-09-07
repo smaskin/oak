@@ -22,9 +22,6 @@
                                 </h4>
                                 <h5>{{ product.price }}</h5>
                             </div>
-                            <div class="card-footer">
-                                <small class="text-muted">{{ product.quantity }}</small>
-                                <a href="{% url 'order:add' product.pk %}"><i class="fas fa-plus"></i> Добавить</a></div>
                         </div>
                     </div>
                 {% endfor %}
