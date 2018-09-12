@@ -1,10 +1,10 @@
-from django.conf.urls import url
+from django.conf.urls import re_path
 import apps.product.views as product
 
 app_name = 'product'
 
 urlpatterns = [
-    url(r'^$', product.index, name='index'),
-    url(r'^(?P<category>\d+)$', product.index, name='index'),
-    url(r'^(\d+)/(\d+)$', product.view, name='view'),
+    re_path(r'^$', product.index, name='index'),
+    re_path(r'^(?P<category>\d+)$', product.index, name='index'),
+    re_path(r'^(\d+)/(\d+)$', product.view, name='view'),
 ]
