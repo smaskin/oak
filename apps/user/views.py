@@ -3,8 +3,9 @@ from django.contrib import auth
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import LoginForm, RegisterForm, EditForm
+from .forms import LoginForm, RegisterForm, EditForm, ProfileForm
 from apps.user.models import User
+from django.db import transaction
 
 
 def login(request):
@@ -42,18 +43,20 @@ def register(request):
 
     return render(request, 'user/register.html', {'title': title, 'register_form': register_form})
 
-
+@transaction.atomic
 def edit(request):
     title = 'редактирование'
     if request.method == 'POST':
         edit_form = EditForm(request.POST, request.FILES, instance=request.user)
-        if edit_form.is_valid():
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if edit_form.is_valid() and profile_form.is_valid:
             edit_form.save()
             return HttpResponseRedirect(reverse('user:edit'))
     else:
         edit_form = EditForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
 
-    content = {'title': title, 'edit_form': edit_form}
+    content = {'title': title, 'edit_form': edit_form, 'profile_form': profile_form}
     return render(request, 'user/edit.html', content)
 
 def verify(request, email, activation_key):

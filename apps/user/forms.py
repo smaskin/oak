@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 import random, hashlib
-from .models import User
+from .models import User, Profile
 
 
 class LoginForm(AuthenticationForm):
@@ -59,3 +59,13 @@ class EditForm(UserChangeForm):
         if data < 18:
             raise forms.ValidationError("Вы слишком молоды!")
         return data
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('tagline', 'aboutMe', 'gender')
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
