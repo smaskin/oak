@@ -47,10 +47,16 @@
                     {% endif %}
                 {% endblock %}
                 <li>
+                    {% if order.positions.exists %}
                     <a href="{% url 'order:view' %}" class="nav-link">
                         <i class="fas fa-shopping-basket text-danger"></i>
-                        <span>{% if order %}{{ order.total_cost|floatformat:0 }} руб ({{ order.total_quantity }} шт){% endif %}</span>
+                        <span>{{ order.total_cost|floatformat:0 }} руб ({{ order.total_quantity }} шт)</span>
                     </a>
+                    {% else %}
+                        <span class="nav-link">
+                            <i class="fas fa-shopping-basket text-default"></i>
+                        </span>
+                    {% endif %}
                 </li>
                 {% if user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}" class="nav-link">Админка</a></li>
@@ -67,6 +73,11 @@
     </div>
 </nav>
 <div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     {% block content %}
         <div class="jumbotron">
             <h1 class="display-5">Добро пожаловать!</h1>

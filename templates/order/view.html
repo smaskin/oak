@@ -18,7 +18,7 @@
             <td>{{ item.product.category.name }}</td>
             <td>{{ item.product.name }}</td>
             <td>{{ item.product.price }}&nbspруб</td>
-            <td><input type="number" name="{{ item.pk }}" min="0" value="{{ item.quantity }}"></td>
+            <td>{{ item.quantity }}</td>
             <td>{{ item.cost }}&nbspруб</td>
             <td><button class="btn btn-round"><a href="{% url 'order:remove' item.pk %}" class="">удалить</a></button></td>
         </tr>
@@ -29,7 +29,7 @@
             <td colspan="7" style="text-align:right">
                 {% if order.positions.first %}
                     В корзине <b>{{ order.total_quantity }}</b> товар(ов) общей стоимостью <b>{{ order.total_cost }}</b> руб
-                    <a href="{% url 'order:pay' %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Оплатить </a>
+                    <a href="{% url 'order:pay' %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-check"></i> Заказать </a>
                 {% endif %}
             </td>
         </tr>

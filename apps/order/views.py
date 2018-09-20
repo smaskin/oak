@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from apps.order.models import Order, Position
 from apps.product.models import Product
 
@@ -39,13 +40,15 @@ def add(request, pk):
   
 @login_required
 def remove(request, pk):
+    order = Order.objects.get(user=request.user, status=Order.CART)
     position = get_object_or_404(Position, pk=pk)
     position.delete()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER')) if order.positions.exists() else HttpResponseRedirect(reverse('product:index'))
 
 @login_required
 def pay(request):
     order = Order.objects.get(user=request.user, status=Order.CART)
     order.status = Order.FORMING
     order.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    messages.add_message(request, messages.INFO, 'Поздравляем заказ успешно сформирован!')
+    return HttpResponseRedirect(reverse('product:index'))
