@@ -28,14 +28,12 @@
         <tr>
             <td colspan="7" style="text-align:right">
                 {% if order.positions.first %}
-                    В корзине {{ order.total_quantity }} товаров общей стоимостью {{ order.total_cost }} руб
+                    В корзине <b>{{ order.total_quantity }}</b> товар(ов) общей стоимостью <b>{{ order.total_cost }}</b> руб
+                    <a href="{% url 'order:pay' %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Оплатить </a>
                 {% endif %}
             </td>
         </tr>
     </tfoot>
 </table>
 <a href="{% url 'main' %}">на главную</a>
-{% if order.positions.first %}
-<a href="{% url 'order:pay' %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Оплатить </a>
-{% endif %}
 {% endblock %}
