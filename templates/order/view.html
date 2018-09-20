@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for item in order_items %}
+        {% for item in order.positions.all %}
         <tr>
             <td><img src="/media/{{ item.product.image }}" alt="{{ item.product.short_desc }}"></td>
             <td>{{ item.product.category.name }}</td>
@@ -26,13 +26,16 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="7">
-                {% if order_items %}
-                    В корзине {{ order_items.0.total_quantity }} товаров общей стоимостью {{ order_items.0.total_cost }} руб
+            <td colspan="7" style="text-align:right">
+                {% if order.positions.first %}
+                    В корзине {{ order.total_quantity }} товаров общей стоимостью {{ order.total_cost }} руб
                 {% endif %}
             </td>
         </tr>
     </tfoot>
 </table>
-<button class="btn btn-round"><a href="{% url 'main' %}">на главную</a></button>
+<a href="{% url 'main' %}">на главную</a>
+{% if order.positions.first %}
+<a href="{% url 'order:pay' %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Оплатить </a>
+{% endif %}
 {% endblock %}

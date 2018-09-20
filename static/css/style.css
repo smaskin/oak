@@ -13,3 +13,7 @@ body {
 table img {
     width: 100px;
 }
+
+table img.small {
+    width: 30px;
+}

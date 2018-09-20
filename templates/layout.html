@@ -1,14 +1,15 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>{% block title %}Семена деревьев{% endblock %}</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
     {% block css %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     {% endblock %}
 </head>
 <body>
@@ -31,7 +32,17 @@
                         <a class="nav-link" href="{% url 'product:index' %}">Каталог</a>
                     </li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'user:edit' %}" class="nav-link">{{ user.first_name|default:'Пользователь' }}</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.first_name|default:'Пользователь' }}
+                            <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'user:edit' %}">Профиль</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'order:index' %}">Заказы</a>
+                        </div>
+                    </li>
                     {% endif %}
                     <li>
                         {% if user.is_authenticated %}
@@ -44,9 +55,12 @@
                 <li>
                     <a href="{% url 'order:view' %}" class="nav-link">
                         <i class="fas fa-shopping-basket"></i>
-                        <span>{% if order %}{{ order.0.total_cost|floatformat:0 }} руб ({{ order.0.total_quantity }} шт){% endif %}</span>
+                        <span>{% if order %}{{ order.total_cost|floatformat:0 }} руб ({{ order.total_quantity }} шт){% endif %}</span>
                     </a>
                 </li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}" class="nav-link">Админка</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -61,5 +75,8 @@
 <footer class="fixed-bottom bg-secondary">
     {% block footer %}<div class="container text-white m-3">© 2018 «Все права защищены».</div>{% endblock %}
 </footer>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

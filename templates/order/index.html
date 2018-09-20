@@ -1,0 +1,51 @@
+{% extends 'layout.html' %} {% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Товары</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in models %}
+        <tr>
+            <td>{{ order.pk }}</td>
+            <td>{{ order.created|date }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <table class="table table-sm">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Категория</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Кол-во</th>
+                        <th scope="col">Стоимость</th>
+                    </tr>
+                    {% for item in order.positions.all %}
+                    <tr>
+                        <td><img class="small" src="/media/{{ item.product.image }}" alt="{{ item.product.short_desc }}"></td>
+                        <td>{{ item.product.category.name }}</td>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.price }}&nbspруб</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.cost }}&nbspруб</td>
+                    </tr>
+                    {% endfor %}
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align:right"><b>Итого:</b></td>
+                            <td>{{ order.total_quantity }}</td>
+                            <td>{{ order.total_cost }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<button class="btn btn-round"><a href="{% url 'main' %}">на главную</a></button>
+{% endblock %}

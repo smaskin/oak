@@ -3,24 +3,53 @@ from django.conf import settings
 from apps.product.models import Product
 
 
-class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class Position(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name='количество', default=0)
     add_datetime = models.DateTimeField(verbose_name='время', auto_now_add=True)
 
     @property
-    def product_cost(self):
+    def cost(self):
         return self.product.price * self.quantity
+
+class Order(models.Model):
+    CART = 'CT'
+    FORMING = 'FM'
+    SENT_TO_PROCEED = 'STP'
+    PROCEEDED = 'PRD'
+    PAID = 'PD'
+    READY = 'RDY'
+    CANCEL = 'CNC'
+
+    ORDER_STATUS_CHOICES = (
+        (CART, 'корзина'),
+        (FORMING, 'формируется'),
+        (SENT_TO_PROCEED, 'отправлен в обработку'),
+        (PAID, 'оплачен'),
+        (PROCEEDED, 'обрабатывается'),
+        (READY, 'готов к выдаче'),
+        (CANCEL, 'отменен'),
+    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    positions = models.ManyToManyField(Position)
+    created = models.DateTimeField(verbose_name='создан', auto_now_add=True)
+    updated = models.DateTimeField(verbose_name='обновлен', auto_now=True)
+    status = models.CharField(verbose_name='статус', max_length=3, choices=ORDER_STATUS_CHOICES, default=CART)
+    is_active = models.BooleanField(verbose_name='активен', default=True)
+
+    class Meta:
+        ordering = ('-created',)
+        verbose_name = 'заказ'
+        verbose_name_plural = 'заказы'
 
     @property
     def total_quantity(self):
-        _items = Order.objects.filter(user=self.user)
+        _items = self.positions.all()
         _totalquantity = sum(list(map(lambda x: x.quantity, _items)))
         return _totalquantity
 
     @property
     def total_cost(self):
-        _items = Order.objects.filter(user=self.user)
-        _totalcost = sum(list(map(lambda x: x.product_cost, _items)))
+        _items = self.positions.all()
+        _totalcost = sum(list(map(lambda x: x.cost, _items)))
         return _totalcost
