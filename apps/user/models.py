@@ -16,7 +16,6 @@ class User(AbstractUser):
         return False if now() <= self.activation_key_expires else True
 
 
-
 class Profile(models.Model):
     MALE = 'M'
     FEMALE = 'W'

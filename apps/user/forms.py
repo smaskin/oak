@@ -60,6 +60,7 @@ class EditForm(UserChangeForm):
             raise forms.ValidationError("Вы слишком молоды!")
         return data
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile

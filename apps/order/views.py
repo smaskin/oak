@@ -11,11 +11,13 @@ def index(request):
     title = 'заказы'
     return render(request, 'order/index.html', {'title': title, 'models': Order.objects.filter(user=request.user, status=Order.FORMING)})
 
+
 @login_required
 def view(request):
     title = 'корзина'
     order = Order.objects.filter(user=request.user, status=Order.CART).first()
     return render(request, 'order/view.html', {'title': title, 'order': order})
+
 
 @login_required
 def add(request, pk):
@@ -37,13 +39,14 @@ def add(request, pk):
         order.positions.add(position)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-  
+
 @login_required
 def remove(request, pk):
     order = Order.objects.get(user=request.user, status=Order.CART)
     position = get_object_or_404(Position, pk=pk)
     position.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER')) if order.positions.exists() else HttpResponseRedirect(reverse('product:index'))
+
 
 @login_required
 def pay(request):

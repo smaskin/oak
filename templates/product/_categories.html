@@ -1,4 +1,4 @@
-<a href="{% url 'product:index' %}" class="list-group-item {% if category == 0%}active{% endif %}">Все</a>
+<a href="{% url 'product:index' %}" class="list-group-item list-group-item-action list-group-item-success {% if category == 0%}active{% endif %}">Все</a>
 {% for item in categories %}
-    <a href="{% url 'product:index' category=item.pk %}" class="list-group-item {% if item.pk == category %}active{% endif %}">{{ item.name }}</a>
+    <a href="{% url 'product:index' category=item.pk %}" class="list-group-item list-group-item-action list-group-item-success {% if item.pk == category %}active{% endif %}">{{ item.name }}</a>
 {% endfor %}

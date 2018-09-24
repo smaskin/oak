@@ -15,10 +15,10 @@
                 {% for product in products %}
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100">
-                            <a href="{% url 'product:view' product.category.pk product.pk %}"><img class="card-img-top" src="/media/{{ product.image }}" alt="{{ product.name|title }}"></a>
+                            <a class="img-wrap" href="{% url 'product:view' product.category.pk product.pk %}"><img class="card-img-top" src="/media/{{ product.image }}" alt="{{ product.name|title }}"></a>
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    <a href="{% url 'product:view' product.category.pk product.pk %}">{{ product.name|title }}</a>
+                                    <a class="text-success" href="{% url 'product:view' product.category.pk product.pk %}">{{ product.name|title }}</a>
                                 </h4>
                                 <h5>{{ product.price }}</h5>
                             </div>

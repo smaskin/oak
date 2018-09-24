@@ -2,7 +2,7 @@
 <div class="container">
     <div class="card">
         <div class="row">
-            <aside class="col-sm-5 border-right">
+            <aside class="col-sm-5">
                 <article class="gallery-wrap">
                     <div class="img-big-wrap">
                         <a href="/media/{{ product.image }}" target="_blank">
@@ -16,7 +16,7 @@
                     <h3 class="title mb-3">{{ product.name }}</h3>
                     <p class="price-detail-wrap">
                         <span class="price h3 text-warning"><span class="num">{{ product.price }}</span></span>
-                        <a href="{% url 'order:add' product.pk %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Добавить </a>
+                        <a href="{% url 'order:add' product.pk %}" class="btn btn-lg btn-outline-success text-uppercase"> <i class="fas fa-plus"></i> Добавить </a>
                     </p>
                     <p>
                         <span>На складе: <small class="text-muted">{{ product.quantity }}</small></span>

@@ -12,6 +12,7 @@ class Position(models.Model):
     def cost(self):
         return self.product.price * self.quantity
 
+
 class Order(models.Model):
     CART = 'CT'
     FORMING = 'FM'

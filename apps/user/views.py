@@ -43,6 +43,7 @@ def register(request):
 
     return render(request, 'user/register.html', {'title': title, 'register_form': register_form})
 
+
 @transaction.atomic
 def edit(request):
     title = 'редактирование'
@@ -59,6 +60,7 @@ def edit(request):
     content = {'title': title, 'edit_form': edit_form, 'profile_form': profile_form}
     return render(request, 'user/edit.html', content)
 
+
 def verify(request, email, activation_key):
     try:
         user = User.objects.get(email=email)
@@ -72,6 +74,7 @@ def verify(request, email, activation_key):
     except Exception as e:
         print(f'error activation user : {e.args}')
         return HttpResponseRedirect(reverse('main'))
+
 
 def send_verify_mail(user):
     verify_link = reverse('user:verify', args=[user.email, user.activation_key])
