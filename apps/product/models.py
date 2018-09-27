@@ -15,8 +15,20 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images', blank=True)
     short_desc = models.CharField(verbose_name='кратко', max_length=1024, blank=True)
     description = models.TextField(verbose_name='подробно', blank=True)
-    price = models.DecimalField(verbose_name='цена', max_digits=8, decimal_places=2, default=0)
+    price = models.DecimalField(verbose_name='цена', max_digits=8, decimal_places=0, default=0)
     quantity = models.PositiveIntegerField(verbose_name='склад', default=0)
+
+    @property
+    def price_text(self):
+        return "{} {}".format(self.price, self.currency)
+
+    @property
+    def currency(self):
+        return "руб."
+
+    @property
+    def unit(self):
+        return "кг."
 
     def __str__(self):
         return "{} ({})".format(self.name, self.category.name)

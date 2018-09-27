@@ -8,9 +8,17 @@ class Position(models.Model):
     quantity = models.PositiveIntegerField(verbose_name='количество', default=0)
     add_datetime = models.DateTimeField(verbose_name='время', auto_now_add=True)
 
+    @staticmethod
+    def get_item(pk):
+        return Position.objects.get(pk=pk)
+
     @property
     def cost(self):
         return self.product.price * self.quantity
+
+    @property
+    def cost_text(self):
+        return "{} {}".format(self.cost, self.product.currency)
 
 
 class Order(models.Model):
@@ -42,6 +50,14 @@ class Order(models.Model):
         ordering = ('-created',)
         verbose_name = 'заказ'
         verbose_name_plural = 'заказы'
+
+    @property
+    def total_text(self):
+        position = self.positions.first()
+        if not position:
+            return 'Пусто'
+        product = position.product
+        return "{} {}, {} {}".format(self.total_quantity, product.unit, self.total_cost, product.currency)
 
     @property
     def total_quantity(self):

@@ -1,39 +1,8 @@
-{% extends 'layout.html' %} {% block content %}
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col"></th>
-            <th scope="col">Категория</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Цена</th>
-            <th scope="col">Кол-во</th>
-            <th scope="col">Стоимость</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in order.positions.all %}
-        <tr>
-            <td><img src="/media/{{ item.product.image }}" alt="{{ item.product.short_desc }}"></td>
-            <td>{{ item.product.category.name }}</td>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.product.price }}&nbspруб</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.cost }}&nbspруб</td>
-            <td><a href="{% url 'order:remove' item.pk %}"><i class="fa fa-trash text-info"></i></a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="6" style="text-align:right">
-                {% if order.positions.first %}
-                    В корзине <b>{{ order.total_quantity }}</b> товар(ов) общей стоимостью <b>{{ order.total_cost }}</b> руб
-                {% endif %}
-            </td>
-            <td><a href="{% url 'order:pay' %}" class="btn btn-success"> <i class="fas fa-check"></i> Заказать </a></td>
-        </tr>
-    </tfoot>
-</table>
-<a href="{% url 'main' %}">на главную</a>
+{% extends 'layout.html' %}
+{% block content %}
+    {% include 'order/_positions.html' %}
+    <div class="btn-toolbar float-right" role="toolbar">
+        <div class="form-group mx-3"><textarea class="form-control" placeholder="Комментарий"></textarea></div>
+        <div class="form-group"><a href="{% url 'order:pay' %}" class="btn btn-success"><i class="fas fa-check"></i> Заказать</a></div>
+    </div>
 {% endblock %}

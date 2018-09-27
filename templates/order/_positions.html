@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<table class="table positions">
+    <thead>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Категория</th>
+        <th scope="col">Имя</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Кол-во</th>
+        <th scope="col">Стоимость</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in order.positions.all %}
+        <tr>
+            <td><img src="/media/{{ item.product.image }}" alt="{{ item.product.short_desc }}"></td>
+            <td>{{ item.product.category.name }}</td>
+            <td>{{ item.product.name }}</td>
+            <td nowrap>{{ item.product.price_text }}</td>
+            <td>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="{{ item.pk }}" min="0" value="{{ item.quantity }}" aria-describedby="qnt-{{ item.pk }}">
+                    <div class="input-group-append"><span class="input-group-text" id="qnt-{{ item.pk }}">{{ item.product.unit }}</span></div>
+                </div>
+            </td>
+            <td>{{ item.cost_text }}</td>
+            <td><a href="{% url 'order:remove' item.pk %}"><i class="fa fa-trash text-info"></i></a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="5" style="text-align:right"><b>Всего:</b></td>
+        <td colspan="2">{{ order.total_text }}</td>
+    </tr>
+    </tfoot>
+</table>
