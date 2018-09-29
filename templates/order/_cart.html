@@ -1,0 +1,5 @@
+{% if order.positions.exists %}
+<a href="{% url 'order:view' %}" class="nav-link text-light cart">
+    <i class="fas fa-shopping-basket text-danger"></i><span>{{ order.total_text }}</span>
+</a>
+{% endif %}

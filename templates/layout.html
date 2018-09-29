@@ -46,13 +46,7 @@
                         </li>
                     {% endif %}
                 {% endblock %}
-                <li>
-                    {% if order.positions.exists %}
-                    <a href="{% url 'order:view' %}" class="nav-link text-light">
-                        <i class="fas fa-shopping-basket text-danger"></i><span>{{ order.total_text }}</span>
-                    </a>
-                    {% endif %}
-                </li>
+                <li>{% include 'order/_cart.html' %}</li>
                 {% if user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}" class="nav-link">Админка</a></li>
                 {% endif %}
@@ -67,7 +61,7 @@
         </div>
     </div>
 </nav>
-<div class="container">
+<div class="content container">
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-warning" role="alert">{{ message }}</div>
@@ -86,7 +80,7 @@
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="{% static 'js/positions.js' %}"></script>
+<script src="{% static 'js/order.js' %}"></script>
 {% endblock %}
 </body>
 </html>

@@ -39,6 +39,12 @@ def edit(request, pk, quantity):
 
 
 @login_required
+def cart(request):
+    order = Order.objects.filter(user=request.user, status=Order.CART).first()
+    return JsonResponse({'result': render_to_string('order/_cart.html', {'order': order})})
+
+
+@login_required
 def add(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if 'login' in request.META.get('HTTP_REFERER'):

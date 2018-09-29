@@ -7,6 +7,9 @@ body {
         padding-top: 76px;
     }
 }
+.content {
+    margin-bottom: 200px;
+}
 .img-big-wrap img{
     width: 100%;
 }
