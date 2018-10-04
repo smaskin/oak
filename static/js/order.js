@@ -11,4 +11,11 @@ window.onload = function () {
         });
         event.preventDefault();
     });
+    $(".positions").on('click', '[data-remove-url]', function () {
+        $.get($(this).data('removeUrl'), function (data) {
+            $('.positions').html(data.result)
+            cart_reload();
+        });
+        event.preventDefault();
+    });
 }

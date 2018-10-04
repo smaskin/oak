@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.functional import cached_property
 from apps.product.models import Product
 
 
@@ -43,30 +44,19 @@ class Order(models.Model):
     positions = models.ManyToManyField(Position)
     created = models.DateTimeField(verbose_name='создан', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='обновлен', auto_now=True)
-    status = models.CharField(verbose_name='статус', max_length=3, choices=ORDER_STATUS_CHOICES, default=CART)
-    is_active = models.BooleanField(verbose_name='активен', default=True)
+    status = models.CharField(db_index=True, verbose_name='статус', max_length=3, choices=ORDER_STATUS_CHOICES, default=CART)
 
     class Meta:
         ordering = ('-created',)
         verbose_name = 'заказ'
         verbose_name_plural = 'заказы'
 
-    @property
+    @cached_property
     def total_text(self):
-        position = self.positions.first()
-        if not position:
+        positions = self.positions.select_related().all()
+        if not positions:
             return 'Пусто'
-        product = position.product
-        return "{} {}, {} {}".format(self.total_quantity, product.unit, self.total_cost, product.currency)
-
-    @property
-    def total_quantity(self):
-        _items = self.positions.all()
-        _totalquantity = sum(list(map(lambda x: x.quantity, _items)))
-        return _totalquantity
-
-    @property
-    def total_cost(self):
-        _items = self.positions.all()
-        _totalcost = sum(list(map(lambda x: x.cost, _items)))
-        return _totalcost
+        total_quantity = sum(list(map(lambda x: x.quantity, positions)))
+        total_cost = sum(list(map(lambda x: x.cost, positions)))
+        product = positions[0].product
+        return "{} {}, {} {}".format(total_quantity, product.unit, total_cost, product.currency)

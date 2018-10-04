@@ -26,7 +26,7 @@
             </div>
         </td>
         <td>{{ item.cost_text }}</td>
-        <td><a href="{% url 'order:remove' item.pk %}"><i class="fa fa-trash text-info"></i></a></td>
+        <td><button data-remove-url="{% url 'order:remove' item.pk %}"><i class="fa fa-trash text-info"></i></button></td>
     </tr>
 {% endfor %}
 </tbody>

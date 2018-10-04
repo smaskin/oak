@@ -1,4 +1,6 @@
+from django.core.cache import cache
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import cache_page
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, pre_delete
 from apps.order.models import Position
@@ -6,11 +8,13 @@ from .models import Category, Product
 
 
 def index(request, category=0):
+    category = int(category)
+    query = Product.objects.select_related()
     return render(request, 'product/index.html', {
         'title': 'Каталог',
-        'category': int(category),
-        'products': Product.objects.filter(category__pk=category) if int(category) > 0 else Product.objects.all(),
-        'categories': Category.objects.all(),
+        'category': category,
+        'products': cache.get_or_set('prods_with_cat_{}'.format(category), query.filter(category__pk=category) if category > 0 else query.all()),
+        'categories': cache.get_or_set('cats', Category.objects.all())
     })
 
 

@@ -36,6 +36,8 @@ def edit(request, pk, quantity):
         else:
             position.delete()
         return JsonResponse({'result': render_to_string('order/_positions.html', {'order': order})})
+    else:
+        return HttpResponseForbidden()
 
 
 @login_required
@@ -47,8 +49,10 @@ def cart(request):
 @login_required
 def add(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    if 'login' in request.META.get('HTTP_REFERER'):
-        return HttpResponseRedirect(reverse('product:view', args=[product.category.pk, pk]))
+    referer = request.META.get('HTTP_REFERER')
+    redirect = HttpResponseRedirect(reverse('product:view', args=[product.category.pk, pk]))
+    if referer and 'login' in referer:
+        return redirect
     order = Order.objects.filter(user=request.user, status=Order.CART).first()
     if not order:
         order = Order(user=request.user)
@@ -62,15 +66,20 @@ def add(request, pk):
         position.quantity = 1
         position.save()
         order.positions.add(position)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(referer) if referer else redirect
 
 
 @login_required
 def remove(request, pk):
-    order = Order.objects.get(user=request.user, status=Order.CART)
-    position = get_object_or_404(Position, pk=pk)
-    position.delete()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER')) if order.positions.exists() else HttpResponseRedirect(reverse('product:index'))
+    if request.is_ajax():
+        position = get_object_or_404(Position, pk=pk)
+        order = position.order_set.first()
+        if order.user.pk != request.user.pk:
+            return HttpResponseForbidden()
+        position.delete()
+        return JsonResponse({'result': render_to_string('order/_positions.html', {'order': order})})
+    else:
+        return HttpResponseForbidden()
 
 
 @login_required

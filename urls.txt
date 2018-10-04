@@ -1,0 +1,17 @@
+http://localhost:8000/user/login/ POST username=admin&password=admin
+http://localhost:8000/user/edit/
+http://localhost:8000/user/register/
+
+http://localhost:8000/
+http://localhost:8000/product/
+http://localhost:8000/product/1
+http://localhost:8000/product/2
+http://localhost:8000/product/1/1
+http://localhost:8000/product/1/2
+http://localhost:8000/product/2/3
+http://localhost:8000/product/1/4
+http://localhost:8000/order/
+http://localhost:8000/order/cart/
+http://localhost:8000/order/add/4
+http://localhost:8000/order/edit/120/3/
+http://localhost:8000/order/remove/120/
