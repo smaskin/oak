@@ -54,6 +54,7 @@ def edit(request):
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
         if edit_form.is_valid() and profile_form.is_valid:
             edit_form.save()
+            profile_form.save()
             return HttpResponseRedirect(reverse('user:edit'))
     else:
         edit_form = EditForm(instance=request.user)

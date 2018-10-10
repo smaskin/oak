@@ -16,21 +16,23 @@ class LoginForm(AuthenticationForm):
 
 
 class RegisterForm(UserCreationForm):
+    password2 = None
+
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'password1', 'password2', 'email', 'age', 'avatar')
+        fields = ('username', 'email', 'password1', 'avatar')
+        labels = {
+            'email': 'Email',
+            'password1': 'Пароль',
+            'username': 'Имя пользователя',
+        }
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
-
-    def clean_age(self):
-        data = self.cleaned_data['age']
-        if data < 18:
-            raise forms.ValidationError("Вы слишком молоды!")
-        return data
 
     def save(self):
         user = super(RegisterForm, self).save()
@@ -44,7 +46,12 @@ class RegisterForm(UserCreationForm):
 class EditForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'email', 'age', 'avatar', 'password')
+        fields = ('username', 'email', 'password', 'avatar')
+        labels = {
+            'email': 'Email',
+            'password1': 'Пароль',
+            'username': 'Имя пользователя',
+        }
 
     def __init__(self, *args, **kwargs):
         super(EditForm, self).__init__(*args, **kwargs)
@@ -54,17 +61,11 @@ class EditForm(UserChangeForm):
             if field_name == 'password':
                 field.widget = forms.HiddenInput()
 
-    def clean_age(self):
-        data = self.cleaned_data['age']
-        if data < 18:
-            raise forms.ValidationError("Вы слишком молоды!")
-        return data
-
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('tagline', 'aboutMe', 'gender')
+        fields = ('aboutMe', 'gender')
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)

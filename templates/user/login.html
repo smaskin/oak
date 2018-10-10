@@ -1,13 +1,20 @@
 {% extends 'layout.html' %}
 {% load staticfiles %}
 {% block content %}
-    <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
-        {% csrf_token %}
-        {% if next %}
-            <input type="hidden" name="next" value="{{ next }}">
-        {% endif %}
-        {{ login_form.as_p }}<br>
-        <input class="form-control" type="submit" value="войти">
+    <form action="{% url 'user:login' %}" method="post">
+        <div class="card mx-auto" style="width: 30rem;">
+            <div class="card-header"><h3 class="card-title">Вход</h3></div>
+            <div class="card-body">
+                {% csrf_token %}
+                {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                {% endif %}
+                {{ login_form.as_p }}<br>
+            </div>
+            <div class="card-footer">
+                <input class="form-control btn btn-info" type="submit" value="Войти">
+            </div>
+        </div>
     </form>
     <button class="btn btn-round form-control"><a href="{% url 'user:register' %}" class="">Зарегистрироваться</a></button>
 {% endblock %}

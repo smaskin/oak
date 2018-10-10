@@ -7,8 +7,8 @@ from datetime import timedelta
 
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='avatars', blank=True)
-    age = models.PositiveIntegerField(verbose_name='возраст')
+    avatar = models.ImageField(upload_to='avatars', blank=True, verbose_name='фото')
+    age = models.PositiveIntegerField(verbose_name='возраст', null=True)
     activation_key = models.CharField(max_length=128, blank=True)
     activation_key_expires = models.DateTimeField(default=(now() + timedelta(hours=48)))
 

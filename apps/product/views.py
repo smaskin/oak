@@ -1,6 +1,5 @@
 from django.core.cache import cache
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.cache import cache_page
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, pre_delete
 from apps.order.models import Position
